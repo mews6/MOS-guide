@@ -1,6 +1,16 @@
 # Mac-specific files
 .DS_Store
 notes/DS_Store
+
+# LaTeX compilation files
+
+notes/main.aux
+notes/main.fls
+notes/main.out
+notes/main.synctex.gz
+notes/main.toc
+notes/main.dfb_latexmk
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
