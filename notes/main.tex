@@ -105,13 +105,58 @@ A stochastic model is one that involves a certain amount of randomness. For exam
 
 \subsection{Static mathematical models}
 
+A static model is one that does not depend on time, implying that whatever time passes, the result of
+such a system should stay constant. Generally this will happen for models where we don't even consider time as a 
+relevant variable.
+
 \subsection{Dynamic mathematical models}
 \subsubsection{Continuous time models}
+
+A continuous time model is one where we assume time as a continuous function, that meaning, it is
+flowing in somewhat real time. Although the way computation has it should bring it to be a finite level of
+statuses, this should be a big enough sample such as we can assume the variable can be statistically generalized into
+a continuous system
+
 \subsubsection{Discrete time models}
 
 A fairly interesting application of discrete time models comes from finance, where there exists 
 capitalization in a set time interval. For example, we could imagine the free cash flow of an economic project as
+a mathematical problem to be optimized, such as this:
+
+\subsubsection{Continuous status models}
+
+In a continuous status model, the dependant variable can assume any value in the range of a specific interval.
+
+\subsubsection{Discrete status models}
+
+In these models, the difference is analogous to the way a discrete time model varies from a continuous
+time model. Values for the dependant variable shouls only assume specific values in an interval. For example, a
+model where every value the dependant variable can take is in the range of natural numbers ($\mathbb{N}$) would be 
+a discrete status.
+
+\subsubsection{Examples of model classification}
+
+\paragraph{Number of attendants in a bank every hour}
+
+This example would be a dynamic mathematical model where every 
+
+\paragraph{Temperature of a classroom every hour}
+
+For this, 
+
+\subsection{Open mathematical models}
+
+An open mathematical model is one where the input that is recieved will be external to this model and
+independent from itself. For example a translator, such as Google Translate or DeepL will model natural language
+such as the input recieved is not eventually retroactively giving feedback to the model. Although it is possible that
+in ML models there are eventually expected use cases introduced into the model, for out purposes, they will be considered 
+open as long as at runtime the previous example does not feedback into further answers.
 
 
+
+
+%\includegraphics[options]{name}
+
+\section{}
 
 \end{document}
