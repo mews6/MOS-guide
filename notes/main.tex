@@ -20,7 +20,9 @@
 
 \tableofcontents
 
-\chapter{Mathematical Modeling.}
+\part{Mathematical Models}
+
+\chapter{Introduction to Mathematical Modeling.}
 
 For this chapter, we'll:
 
@@ -31,7 +33,7 @@ For this chapter, we'll:
     \item Make proper implementations of mathematical models.
 \end{itemize}
 
-\section{Introduction to mathematical modeling}
+\section{Definitions to mathematical modeling}
 
 Before we can begin to think about models, we must understand what they are.
 And, for the purposes of this book, we can define a mathematical model as a representation
@@ -152,11 +154,136 @@ such as the input recieved is not eventually retroactively giving feedback to th
 in ML models there are eventually expected use cases introduced into the model, for out purposes, they will be considered 
 open as long as at runtime the previous example does not feedback into further answers.
 
+\subsection{Linear mathematical models}
 
+Assume the following definition of linearity
 
+A function 'f(x)' is linear if:
+\begin{itemize}
+    \item Ex. 1: $f(u+v) = f(u) + f(v)$
+    \item Ex. 2: $f(k \cdot u) = k \cdot f(u) ; k \ is \ constant$
+    \item $\not \exists \ x \in \mathbb{R}  \implies (Ex. 1 \ f(x+y); x,y \in \mathbb{R} \neq f(x) +f(y)) \lor (Ex. 2 \ f(k \cdot x); k, x \in \mathbb{R} \neq k \cdot f(x)) $
+\end{itemize}
+
+a linear mathematical model should have every single function following these constraints. 
 
 %\includegraphics[options]{name}
 
-\section{}
+\chapter{Optimization Solutions}
+
+Now, given that we know what an optimization problem entails, how can we begin
+to solve it? As it might be evident by now, this question will be the crux of most our
+problems, and yet there is not much to fear. As it comes, we really have tought about quite an
+important amount of problems already, and they provide a baseline for our analysis. As with
+many problems in computer science, we stand in the shoulders of giants, really.
+
+So for example, we can imagine the following case:
+
+\textbf{\textit{Example 1:}}
+
+Let the following problem:
+
+\textit{"We have 8 projects that return a certain profit, so we want to select as many projects as possible that will return a certain profit.
+we want to select as many projects as possible that will generate the highest profit.
+generate the highest profit. Suppose that the profit of each project is
+and we have a constraint for acquiring the projects, which is that we can only choose 2 projects.
+that we can only choose 2 projects.
+
+Propose a mathematical optimization model to solve the problem."}
+
+\textbf{Note:} We assume equal spending for them.
+
+\begin{gather}
+    F_{j}(x); \forall j \in \mathbb{N}
+\end{gather}
+
+The first thing to do is to determine the different parts of this program, for those purposes, we can
+determine them in the following categories:
+
+\begin{itemize}
+    \item Sets: the group of sets that can be applied to this problem, assuming sets as a group of mathematical variables.
+    \item Indexes: the identifier for which we call every item inside of a set
+    \item Parameters: the numerical and mathematical significance of every index inside of a set.
+    \item Decision Variable: the variable we mean to analyze in our problem.
+    \item Objective function: The expected behavior of a decision variable
+    \item Restrictions: The rules under which we analyze the previous ideas.
+\end{itemize}
+
+as such, for this problem we can imagine the categories proposed previously as such:
+
+\begin{itemize}
+    \item Sets: P is a set of projects, that can be represented as $$P = {1,2 \dots 8}$$
+    \item Indexes: i is a number from 1 to 8 that represents the order of the project to be selected
+    \item Parameters: $g_i$ will be our representation of profit under this system.
+    \item Decision Variable: $x_i$ will be a binary (either 1 or 0) constant that will represent the selection of a project.
+    \item Objective function: $$max(\sum_{i \in P} g_{i} \cdot x_{i})$$ This means we intend to optimize 'g', which represents profit, and is bound to an 'x' binary constant.
+    \item Restrictions: $$\sum_{i \in P} x_i = 2$$ This means that we can only choose two projects, it makes sense because those values will multiply $g_i$ in our objective function
+\end{itemize}
+
+Now, say we want to represent this model in Pyomo, a python library for this sort of optimization. Say
+
+
+\code{my_code}{python}{
+
+    from __future__ import division
+    from pyomo.environ import *
+
+    from pyomo.opt import SolverFactory
+
+    Model = ConcreteModel()
+
+    # Data de entrada
+    numProjects=8
+
+    p=RangeSet(1, numProjects)
+
+    value={1:2, 2:5, 3:4, 4:2, 5:6, 6:3, 7:1, 8:4}
+
+    # Decision Variable
+    Model.x = Var(p, domain=Binary)
+
+    # Objective Functions
+    Model.obj = Objective(expr = sum(Model.x[i]*value[i] for i in p), sense=maximize)
+
+    # Restrictions
+    Model.res1 = Constraint(expr = sum(Model.x[i] for i in p) == 2)
+
+    # Solver specifications
+    SolverFactory('glpk').solve(Model)
+
+    Model.display()
+    }
+    {Representation of the proposed solution in code.}
+
+a script for this program can be found in the repository for this book. The resulting output will be as follows:
+
+\code{my_code}{plaintext}{
+    Model unknown
+    Variables:
+        x : Size=8, Index=[1:8]
+            Key : Lower : Value : Upper : Fixed : Stale : Domain
+            1   :     0 :   0.0 :     1 : False : False : Binary
+            2   :     0 :   1.0 :     1 : False : False : Binary
+            3   :     0 :   0.0 :     1 : False : False : Binary
+            4   :     0 :   0.0 :     1 : False : False : Binary
+            5   :     0 :   1.0 :     1 : False : False : Binary
+            6   :     0 :   0.0 :     1 : False : False : Binary
+            7   :     0 :   0.0 :     1 : False : False : Binary
+            8   :     0 :   0.0 :     1 : False : False : Binary
+    
+    Objectives:
+            obj  : Size=1, Index=None, Active=True
+            Key  : Active : Value
+            None :   True :  11.0
+    
+    Constraints:
+            res1 : Size=1
+            Key  : Lower : Body : Upper
+            None :   2.0 :  2.0 :   2.0
+}{Output of the provided problem}
+
+this implies that for the example program, we will choose projects 2 and 5. 
+
+
 
 \end{document}
