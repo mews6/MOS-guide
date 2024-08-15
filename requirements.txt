@@ -1,7 +1,6 @@
 pyomo
 glpk
 ipopt
-ipynb
 matplotlib
 pandas
 numpy
