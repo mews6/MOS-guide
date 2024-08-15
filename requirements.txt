@@ -4,3 +4,4 @@ ipopt
 matplotlib
 pandas
 numpy
+ipykernel
