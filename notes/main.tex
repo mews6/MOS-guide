@@ -284,6 +284,70 @@ a script for this program can be found in the repository for this book. The resu
 
 this implies that for the example program, we will choose projects 2 and 5. 
 
+\section{Mathematical management of expressions.}
+
+Now as it might be evident, the fact is we'll be using mathematical expressions 
+in order to make sense of our problems. This means we need to understand
+how 
+
+Generally, 
+
+\begin{itemize}
+    \item Sumatory: $\sum_{i\in \mathbb{N}} x_i = j ; j \in \mathbb{R}$
+    \item For every item: $x_i = j ; \forall_{i \in \mathbb{N}}$
+\end{itemize}
+
+\subsection{Conditional Operations}
+
+The before noted expressions are general, that means, when ran over a subset of data, they will
+take all items and apply an operation over them. however, we won't always want this sort of behaviour in our
+systems.
+
+\begin{itemize}
+    \item Conditional Sumatory: $\sum{i \in \mathbb{N}} x_i ; \forall i \in \mathbb{N} | i = x$
+    \item Conditional for every item: $\forall{x_i = j; i \in \mathbb{N} | i = y}$
+\end{itemize}
+
+\textbf{Example: }
+
+Given the following cases:
+
+\textit{given the set: $N = \{1 .. 10\}$ and the specific restriction 
+$x_2 + x_3 + x_6 + x_8 + x_10 = 1$, how would we write the generic restriction?
+}
+
+We can use a conditional sumatory to represent this restriction, such as it follows:
+
+\begin{gather}
+    \sum_{i \in N} x_i = 1 ; \forall i \in N | i \in i \mod 2 = 0 | N = \{ 1 .. 10  \}
+\end{gather}
+
+\textit{Given the set $N = \{ 1,2,3 \}$, How would we expand the generic expression:
+
+$\sum_{i \in N}\sum_{j \in N}\sum_{k \in N} = x_{ijk} = 1$
+
+}
+
+This would be basically a matrix sum, written as such:
+
+\begin{gather}
+    x_{1,1,1} + x_{1,1,2} + x_{1,1,3} \\
+    x_{1,2,1} + x_{1,2,2} + x_{1,2,3} \\
+    \dots \\
+    x_{3,3,1} + x_{3,3,2} + x_{3,3,3} = 1 \\
+\end{gather}
+
+The Amount of expressions is a combination from the different elements in N. In this case, it is a sum of
+27 elements (3x3x3)
+
+\textit{Given the set $N = \{ 1,2,3 \}$ and the specific restrictions:
+$$ x_{12} + x_{13} = 1 \\  $$
+} 
+
+This is a 'for all' expression, such as:
+\begin{gather}
+    \sum_{i , j \in N} x_{i,j} = 1 | \forall_{i,j} \in N | j \neq 1
+\end{gather}
 
 
 \end{document}
