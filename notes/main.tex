@@ -322,11 +322,9 @@ We can use a conditional sumatory to represent this restriction, such as it foll
     \sum_{i \in N} x_i = 1 ; \forall i \in N | i \in i \mod 2 = 0 | N = \{ 1 .. 10  \}
 \end{gather}
 
-\textit{Given the set $N = \{ 1,2,3 \}$, How would we expand the generic expression:
+\textit{Given the set $N = \{ 1,2,3 \}$, How would we expand the generic expression:}
 
 $\sum_{i \in N}\sum_{j \in N}\sum_{k \in N} = x_{ijk} = 1$
-
-}
 
 This would be basically a matrix sum, written as such:
 
@@ -359,6 +357,138 @@ it is also important to know why we could do so.
 On the examples here shown, we have implicitly expected an 'index' to be found somewhere. 
 that is where 'i' and 'j' come from. 
 
+\section{graph problems}
 
+We will be working extensibly on graph problems on the duration of 
+this 
+
+\chapter{Examples}
+
+\section[Homework 1]{Homework 1: The diet problem}
+
+\subsection{Solution to the problem}
+\code{my_code}{python}{
+    from __future__ import division
+    from pyomo.environ import *
+    
+    from pyomo.opt import SolverFactory
+    
+    '''
+    # Definicion variables alimento
+    
+    c = carne = 1
+    a = arroz = 2
+    l = leche = 3
+    p = pan = 4
+    
+    Todos los valores numericos vienen del enunciado.
+    '''
+    Model = ConcreteModel(name='dieta')
+    
+    '''
+    N = Productos.
+    
+    1 = Carne
+    2 = Arroz
+    3 = Leche
+    4 = Pan
+    '''
+    N = RangeSet(1,4)
+    
+    # Variable de decisión, ligada a N *****************************************************************************************************************************************
+    
+    Model.c = Var(N, domain=NonNegativeReals) 
+    
+    '''
+    M = Caracteristicas de los productos.
+    
+    1 = Calorias
+    2 = Proteinas
+    3 = Azucar
+    4 = Grasas 
+    5 = Carbohidratos
+    
+    '''
+    M = RangeSet(1,5)
+    
+    '''
+    Precios, los valores de las llaves corresponden a aquellos en N 
+    '''
+    p =  {1:3000,2:1000,3:600,4:700} 
+    
+    '''
+    Variable objetivo,
+    '''
+    Model.obj = Objective(expr = sum(Model.c[i]*p[i] for i in N), sense=minimize)
+    
+    
+    '''
+    Datos de las comidas, cada dato esta organizado de forma que pueda leerse en el orden 
+    v[i][j]. donde 'i' es un valor de N (es decir, un alimento) y donde 'j' es un valor de M
+    (es decir, una caracteristica)
+    '''
+    v = {
+        1:{ 
+            1:287,
+            2:26,
+            3:0,
+            4:19.3,
+            5:0
+        },
+        2:{
+            1:204,
+            2:4.2,
+            3:0.01,
+            4:0.5,
+            5:44.1
+        },
+        3:{
+            1:146,
+            2:8,
+            3:13,
+            4:8,
+            5:11
+        },
+        4:{
+            1:245,
+            2:6,
+            3:25,
+            4:0.8,
+            5:55
+        }
+    }
+    
+    '''
+    Limites.
+    
+    Ligados a M
+    '''
+    L = {
+        1: 1500,
+        2: 63,
+        3: 25,
+        4: 50,
+        5: 200
+    }
+    
+    def inferior(Model, j):
+        if j != 1 and j != 2:
+            return (sum(Model.c[i]*v[i][j] for i in N ) <= L[j]) 
+        else:
+            return Constraint.Skip    
+    Model.inferior = Constraint(M, rule=inferior)
+    
+    def superior(Model, j):
+        if j == 1 or j == 2:
+            return (sum(Model.c[i]*v[i][j] for i in N) >= L[j])
+        else:
+            return Constraint.Skip
+    Model.superior = Constraint(M, rule=superior)
+    
+    # Especificación del solver
+    SolverFactory('glpk').solve(Model)
+    
+    Model.display()
+}{Solution to the problem}
 
 \end{document}
