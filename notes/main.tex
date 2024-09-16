@@ -355,9 +355,26 @@ it is also important to know why we could do so.
 \subsubsection{Not controlling an index}
 
 On the examples here shown, we have implicitly expected an 'index' to be found somewhere. 
-that is where 'i' and 'j' come from. 
+that is where 'i' and 'j' come from. They imply a specific member of a set whose existence
+allows us to check for all possible alternatives and, as such, will depend on the way our sets
+work. But in any case, they should be giving us more information about that set. 
 
-\section{graph problems}
+This, in essence, means that we should generally have our indexes being iterated by a mathematical 
+operator, such as: 
+
+$$\forall ; \sum ; \prod$$
+
+A loose index will not iterate, and therefore will give us no valuable information when it comes to
+our sets. This eventually means we shouldn't 
+
+\subsubsection{Multiple controllers in a single index}
+
+The polar opposite of the previous system, having multiple controllers that are 
+bound to a single index is going to make our model somewhat unstable, and it will probably crash.
+
+\subsubsection{}
+
+\section{Graph Problems}
 
 We will be working extensibly on graph problems on the duration of 
 this 
