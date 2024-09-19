@@ -25,7 +25,7 @@ conda activate myenv
 to install all relevant dependencies, go to the root of your project and run:
 
 ```
-conda install --file requirements.txt
+conda install -c conda-forge --file requirements.txt
 ```
 
 Once all this is said and done, you should be able to run any Python script found in this repository. You can test all dependencies were dealt with correctly by running the script `./labs/lab0/src/scripts/testBasics.py`
