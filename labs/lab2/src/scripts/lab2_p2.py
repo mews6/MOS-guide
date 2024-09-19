@@ -5,7 +5,7 @@ import pandas as pd
 
 Model = ConcreteModel()
 
-numNodes=5
+numNodes=6
 
 N=RangeSet(1, numNodes)
 
@@ -38,7 +38,7 @@ Model.destination=Constraint(N, rule=destination_rule)
 
 def MTZ_rule(Model, i, j):
     if i != j:
-        return ((Model.u[i] - Model.u[j]) + (len(N)-1)*Model.x[i,j]) <= len(N) - 2
+        return ((Model.u[i] - Model.u[j]) + (len(N)-1)*Model.x[i,j]) <= (len(N) - 2)
     else:
         return Constraint.Skip
 Model.mtz=Constraint(N,N, rule=MTZ_rule)
