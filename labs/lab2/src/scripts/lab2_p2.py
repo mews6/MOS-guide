@@ -3,7 +3,7 @@ import math
 import numpy as np
 import pandas as pd
 
-model = ConcreteModel()
+Model = ConcreteModel()
 
 numNodes=5
 
@@ -19,7 +19,7 @@ cost={(1,1):999, (1,2):5,   (1,3):2,   (1,4):999, (1,5):999,\
 Model.x = Var(N,N, domain=Binary)
 Model.u = Var(N, domain=NonNegativeReals)
 
-Model.obj = Objective(expr = sum(cost[i,j]*Model.x[i,j] for i in N for j in N), sense=minimize)
+Model.obj = Objective(expr = sum(cost[i,j]* Model.x[i,j] for i in N for j in N), sense=minimize)
 
 def source_rule(Model,i):
     if i==1:
@@ -37,14 +37,14 @@ Model.destination=Constraint(N, rule=destination_rule)
 
 def MTZ_rule(Model, i, j):
     if i != j:
-        return ((Model.u[i] - Model.u[j]) + (len(N)-1)*Model.x[i][j]) <= len(N) - 2
+        return ((Model.u[i] - Model.u[j]) + (len(N)-1)*Model.x[i,j]) <= len(N) - 2
     else:
         return Constraint.Skip
 Model.mtz=Constraint(N,N, rule=MTZ_rule)
 
 def subtour_rule(Model,i):
     if i == 1:
-        return u[i] == 1
+        return Model.u[i] == 1
     else:
         return Constraint.Skip
 Model.stour=Constraint(N, rule=subtour_rule)
